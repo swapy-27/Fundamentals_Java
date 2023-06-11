@@ -1,10 +1,7 @@
+package multithreading_concurrency;
 
 // diff ways of running a thread and runnable interface
-
-
-
-
-public class ExampleOne {
+public class ExampleOne_Ways_To_Implement_Threads {
     public static void main(String[] args) {
         //TODO:how inner classes effects in java program ??
         class  MyRunnable implements Runnable {
