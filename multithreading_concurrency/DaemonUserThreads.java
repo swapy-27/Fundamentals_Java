@@ -8,15 +8,17 @@ import util.NthPrimeNumber;
 
 public class DaemonUserThreads {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         List<Thread> threads = new ArrayList<>();
 
         Runnable printStatus = () -> {
-            try{while (true) {
-                Thread.sleep(5000);
-                threads.forEach(thread -> System.out.print("Status " + thread.getState() + " "));
-            }}catch (InterruptedException e){
-                System.out.println("Interrupted");
+            try {
+                while (true) {
+                    Thread.sleep(5000);
+                    threads.forEach(thread -> System.out.print("Status " + thread.getState() + " "));
+                }
+            } catch (InterruptedException e) {
+                System.out.println("Status Print Interrupted");
             }
         };
         Thread statusReporter = new Thread(printStatus);
@@ -28,6 +30,10 @@ public class DaemonUserThreads {
             System.out.println("I can tell You the nth prime number enter -- n ");
             n = sc.nextInt();
             if (n == 0) {
+                System.out.println("Waitng for all threads to complete there job");
+                waitForThreads(threads);
+                System.out.println("These many threads excuted " + threads.size());
+
                 statusReporter.interrupt();
                 break;
             }
@@ -52,6 +58,25 @@ public class DaemonUserThreads {
 
         }
     }
+
+    /**
+     * what if u want to wait for all threads to be ended before main threads get ended?
+     * thread.join() comes into picture here.
+     * it implements a condition called Barrier Synchronization.
+     * Basically it stops the execution of next code befor current thread gets excuted.
+     * it can be parameterized also and throws interrupted exception.
+     *
+     */
+
+    public static void waitForThreads(List<Thread> threads)  {
+        threads.forEach(thread -> {
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                System.out.println("Thread got interrupted while waiting");
+            }
+        });
+
+    }
+
 }
-
-
