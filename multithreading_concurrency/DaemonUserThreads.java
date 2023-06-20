@@ -30,11 +30,14 @@ public class DaemonUserThreads {
             System.out.println("I can tell You the nth prime number enter -- n ");
             n = sc.nextInt();
             if (n == 0) {
+                statusReporter.interrupt();
+
+
                 System.out.println("Waitng for all threads to complete there job");
                 waitForThreads(threads);
                 System.out.println("These many threads excuted " + threads.size());
 
-                statusReporter.interrupt();
+
                 break;
             }
             ;
@@ -79,4 +82,17 @@ public class DaemonUserThreads {
 
     }
 
+    /**
+     * there is no stop method for thread
+     * we have interupt which ask thread to gracefully clean up and shutdown on its own or throw Interrupted Exception
+     */
+
+
+    /**
+     * Concurrency VS Parallelism
+     *Parallelism -- Running multiple programs at same time
+     * Concurrency -- Multiple tasks are in progress at same time
+     *
+     * All depends on Scheduler
+     */
 }
